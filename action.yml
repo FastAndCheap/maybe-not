@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2025 Alec Delaney
+# SPDX-License-Identifier: MIT
+
+name: 'Maybe Not'
+description: 'Randomly close an issue or pull request when opened'
+author: Alec "tekktrik" Delaney
+
+branding:
+  icon: 'percent'
+  color: 'red'
+
+
+inputs:
+  github-token:
+    description:
+      The GitHub token needed to authenticate, must have write permessions
+      for issues and/or pull requests
+    required: true
+  message:
+    description:
+      The message to write upon closing the issue or pull request
+    default:
+      Sorry, fate has decided that this one isn't happening.
+  fail-percentage:
+    description:
+      The percentage rate at which issues and/or pull requests will be declined
+      (0-100).  The default is 5% (5).
+    default: '5'
+  on-issues:
+    description:
+      Whether this action will run whenever issues are opened.  Can be either
+      "true" or "false" (default is true).
+    default: 'true'
+  on-pull-requests:
+    description:
+      Whether this action will run whenever pull requests are opened.  Can
+      be either "true" or "false" (default is false).
+    default: 'true'
+  lock:
+    description:
+      Whether to lock the conversation after notifying the user.  Can either
+      be "true" or "false" (default is true).
+    default: 'true'
+  close:
+    description:
+      Whether to automatically close the issue after notifying the user. Can
+      either be "true" or "false" (default is true)
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install uv
+      shell: bash
+      run: pipx install uv
+    - name: Install the required version on python
+      shell: bash
+      run: uv python install --project ${{ github.action_path }}
+    - name: Let fate decide
+      shell: bash
+      run: uv run ${{ github.action_path }}/action.py
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_MESSAGE: ${{ inputs.message }}
+        INPUT_FAIL_PERCENTAGE: ${{ inputs.fail-percentage }}
+        INPUT_ON_ISSUES: ${{ inputs.on-issues }}
+        INPUT_ON_PULL_REQUESTS: ${{ inputs.on-pull-requests }}
+        INPUT_LOCK: ${{ inputs.lock }}
+        INPUT_CLOSE: ${{ inputs.close }}
+        ACTION_REPO: ${{ github.repository }}
+        ACTION_EVENT_PATH: ${{ github.event_path }}

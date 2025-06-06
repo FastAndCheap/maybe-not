@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 Alec Delaney
+# SPDX-License-Identifier: MIT
+
+repos:
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v5.0.2
+    hooks:
+      - name: Run REUSE
+        id: reuse
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - name: Check YAML
+        id: check-yaml
+      - name: Fix EOF issues
+        id: end-of-file-fixer
+      - name: Trim trailing whitespace
+        id: trailing-whitespace
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      - id: ruff
+        name: Lint via ruff
+        args: [--fix]
+      - id: ruff-format
+        name: Format via ruff

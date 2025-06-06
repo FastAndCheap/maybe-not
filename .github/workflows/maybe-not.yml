@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2023 Alec Delaney
+# SPDX-License-Identifier: MIT
+
+name: Let fate decide
+
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: FastAndCheap/maybe-not@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-percentage: 5
+          on-issues: true
+          on-pull-requests: true
+          lock: true
+          close: true
