@@ -8,7 +8,7 @@
 # ]
 # ///
 
-"""Script for randomly closing the issue or pull request"""
+"""Script for randomly closing the issue or pull request."""
 
 import json
 import os
@@ -25,6 +25,7 @@ def envvar_as_bool(envvar_name: str) -> bool:
         print(f"'{envvar_name}' must be a YAML boolean value")
         sys.exit(1)
     return envvar in ("y", "yes", "true", "on")
+
 
 def envvar_as_float(envvar_name: str) -> float:
     """Convert a string environment variable to a float."""
