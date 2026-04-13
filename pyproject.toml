@@ -13,7 +13,7 @@ authors = [
 urls = {Homepage = "https://github.com/FastAndCheap/maybe-not"}
 license = "MIT"
 dependencies = [
-    "pygithub>=2.6.1",
+    "pygithub>=2.9.0",
 ]
 
 [tool.ruff.lint]
